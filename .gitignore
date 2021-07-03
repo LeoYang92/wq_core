@@ -6,10 +6,6 @@
 /inc/
 /model/
 /template/
-/config.php/
-/icon.jpg/
-/install.php/
-/manifest.xml/
-/module.php/
-/site.php/
-/upgrade.php/
+/*.php
+/icon.jpg
+/manifest.xml
