@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+    <application setting="false">
+        <name><![CDATA[模块名称]]></name>
+        <identifie><![CDATA[kuyuan_name]]></identifie>
+        <version><![CDATA[0.0.1]]></version>
+        <type><![CDATA[activity]]></type>
+        <ability><![CDATA[模块功能]]></ability>
+        <description><![CDATA[模块描述]]></description>
+        <author><![CDATA[山西酷源网络科技有限公司]]></author>
+        <url><![CDATA[]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+        </handles>
+        <rule embed="false" />
+        <supports>
+            <item type="app" />
+        </supports>
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="首页" do="mobile" />
+        </cover>
+        <menu>
+            <entry title="参数设置" do="setting" displayorder="10" icon="wi wi-setting" />
+        </menu>
+    </bindings>
+    <install><![CDATA[install.php]]></install>
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

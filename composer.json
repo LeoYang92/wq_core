@@ -1,0 +1,17 @@
+{
+    "name": "kuyuan/wq_core",
+    "description": "wqcore",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kuyuan\\WqCore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "louie",
+            "email": "louie_gk@qq.com"
+        }
+    ],
+    "require": {}
+}
