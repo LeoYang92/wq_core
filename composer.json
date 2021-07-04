@@ -7,7 +7,7 @@
             "Model\\": "model/"
         },
         "files": [
-            "/config.php",
+            "config.php",
             "src/run.php",
             "src/functions/common.php"
         ]
