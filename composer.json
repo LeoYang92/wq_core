@@ -2,10 +2,20 @@
     "name": "kuyuan/wq_core",
     "description": "wqcore",
     "license": "MIT",
+    "autoload-dev": {
+        "psr-4": {
+            "Model\\": "model/"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Kuyuan\\WqCore\\": "src/"
-        }
+        },
+        "files": [
+            "/config.php",
+            "src/run.php",
+            "src/functions/common.php"
+        ]
     },
     "authors": [
         {
@@ -13,5 +23,7 @@
             "email": "louie_gk@qq.com"
         }
     ],
-    "require": {}
+    "require": {
+        "doctrine/dbal": "^3.1"
+    }
 }
