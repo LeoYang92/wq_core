@@ -5,20 +5,15 @@
     "autoload-dev": {
         "psr-4": {
             "Model\\": "model/"
-        },
-        "files": [
-            "config.php",
-            "src/run.php",
-            "src/functions/common.php"
-        ]
+        }
     },
     "autoload": {
         "psr-4": {
             "Kuyuan\\WqCore\\": "src/"
         },
         "files": [
-            "src/run.php",
-            "src/functions/common.php"
+            "src/functions/common.php",
+            "src/run.php"
         ]
     },
     "authors": [
