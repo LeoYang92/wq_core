@@ -4,7 +4,8 @@
     "license": "MIT",
     "autoload-dev": {
         "psr-4": {
-            "Model\\": "model/"
+            "Model\\": "model/",
+            "Controller\\": "controller"
         }
     },
     "autoload": {
@@ -23,6 +24,6 @@
         }
     ],
     "require": {
-        "doctrine/dbal": "^3.1"
+        "endroid/qr-code": "2.5.1"
     }
 }
