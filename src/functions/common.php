@@ -100,6 +100,42 @@ if(!function_exists("kstatic_dir")) {
 //-----E动态生成文件或者目录-------------
 
 
+//---------S数据库事务--------------
+if(!function_exists("ku_begin")) {
+    function ku_begin()
+    {
+        pdo()->begin();
+    }
+}
+
+if(!function_exists("ku_commit")) {
+    function ku_commit()
+    {
+        pdo()->commit();
+    }
+}
+
+if(!function_exists("ku_back")) {
+    function ku_back()
+    {
+        pdo()->rollBack();
+    }
+}
+
+if(!function_exists("ku_table_name")) {
+    /**
+     * 数据表名字
+     * @param $_name
+     * @return mixed
+     */
+    function ku_table_name($_name)
+    {
+        return tablename(KUYUAN_NAME."_".$_name);
+    }
+}
+
+//---------E数据库事务--------------
+
 //---------S其他----------------
 if(!function_exists("ku_random")) {
     /**
