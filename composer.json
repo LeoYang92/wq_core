@@ -13,7 +13,6 @@
             "Kuyuan\\WqCore\\": "src/"
         },
         "files": [
-            "src/functions/common.php",
             "src/run.php"
         ]
     },
