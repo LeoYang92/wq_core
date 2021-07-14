@@ -1,5 +1,7 @@
 <?php
 namespace Kuyuan\WqCore\api;
+use Kuyuan\WqCore\util\Util;
+
 abstract class Api
 {
     protected $_gpc = array();
@@ -22,7 +24,7 @@ abstract class Api
         if(isset($this->_class[$_class_name])) {
             $Class = $this->_class[$_class_name];
         } else {
-            $Class = $this->_class[$_class_name] = execClass("Controller\\".$_class_name);
+            $Class = $this->_class[$_class_name] = Util::execClass("Controller\\".$_class_name);
         }
         return $Class;
     }
