@@ -1,5 +1,8 @@
 <?php
 namespace Kuyuan\WqCore\wx;
+use Kuyuan\WqCore\util\File;
+use Kuyuan\WqCore\util\Util;
+
 /**
  * 获取微信支付参数
  * Class PayConfig
@@ -17,7 +20,7 @@ class Pay
         global $_W;
         $_setting = uni_setting();
         load()->func('file');
-        $_cert_dir = kstatic_dir("pay_cert/" . ku_uid());
+        $_cert_dir = File::dir("pay_cert/" . Util::uid());
         $_config = array(
             'app_id' => $_W['account']['key'], // 公众号 APPID
             'miniapp_id' => $_W['account']['secret'], // 小程序 APPID
@@ -27,7 +30,7 @@ class Pay
             'cert_client' => $_cert_dir . file_random_name($_cert_dir, "cert"), // optional，退款等情况时用到
             'cert_key' => $_cert_dir . file_random_name($_cert_dir, "cert"),// optional，退款等情况时用到
             'log' => [
-                'file' => kstatic_dir("wx_pay_log") . "wx_pay.log",
+                'file' => File::dir("wx_pay_log") . "wx_pay.log",
                 'level' => KUYUAN_DEBUG ? "debug" : "info", // 建议生产环境等级调整为 info，开发环境为 debug
             ]
         );
