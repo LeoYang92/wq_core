@@ -71,4 +71,23 @@ class Util
     {
         return sprintf('%x',crc32(microtime()));
     }
+
+    /**
+     * 完善系统用户头像昵称
+     */
+    public static function perfectNicknameAvatar()
+    {
+        global $_W;
+        $_member = W7McMembersModel::where("uniacid",$_W["account"]["uniacid"])
+            ->where("uid",$_W["member"]["uid"])
+            ->field(array("nickname","avatar"))
+            ->find();
+        if(!$_member["nickname"] || !$_member["avatar"]) {
+            $WxApi = \WeAccount::create();
+            $_wx_member = $WxApi->fansQueryInfo($_W['openid']);
+            W7McMembersModel::where("uniacid",$_W["account"]["uniacid"])
+                ->where("uid",$_W["member"]["uid"])
+                ->update(array("nickname"=>$_wx_member['nickname'],"avatar"=>$_wx_member['headimgurl']));
+        }
+    }
 }
