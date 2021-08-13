@@ -1,5 +1,6 @@
 <?php
 namespace Kuyuan\WqCore\util;
+use Model\W7McMembersModel;
 class Util
 {
     /**
@@ -52,7 +53,7 @@ class Util
     public static function appointGet()
     {
         global $_W;
-        if($_W['ispost']) returns(array("code"=>302,"msg"=>"路由错误"));
+        if($_W['ispost']) self::returns(array("code"=>302,"msg"=>"路由错误"));
     }
 
     /**
