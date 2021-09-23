@@ -19,3 +19,7 @@ if (!KUYUAN_DEBUG) {
     ini_set("display_errors", 0);
     ini_set("error_log", \Kuyuan\WqCore\util\File::dir("error_log", true) . "/error.log");
 }
+
+// PDO设置报错类型
+$PDO = pdo()->getPDO();
+$PDO->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
