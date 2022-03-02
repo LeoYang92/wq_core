@@ -34,6 +34,7 @@ use Kuyuan\WqCore\cache\Cache;
  * @method mixed bind() static 自定义sql语句绑定的参数
  * @method mixed fetchAll() static 执行自定义sql语句的查找
  * @method mixed column() static 执行自定义sql语句返回指定字段列
+ * @method mixed give_delete() static 获取假删除的数据
  */
 abstract class Model
 {
@@ -74,16 +75,10 @@ abstract class Model
     protected $_field;
 
     /**
-     * 假删除时修改的数据状态
-     * @var int
-     */
-    protected $_delete_status = 9;
-
-    /**
      * 假删除时对应的数据库字段
      * @var string
      */
-    protected $_delete_field = "status";
+    protected $_delete_field = "delete_time";
 
     // sql绑定的数据
     protected $_bind = array();
@@ -102,6 +97,9 @@ abstract class Model
 
     // 绑定参数后缀
     protected $_bind_suffix = 0;
+
+    // 是否获取假删除的字段
+    protected $_give_delete = false;
 
     public function __construct()
     {
@@ -227,6 +225,25 @@ abstract class Model
     public function setCache($_value)
     {
         $this->_cache = $_value;
+    }
+
+    /**
+     * 设置是否获取假删除的数据
+     * @param boolean $_value
+     * @return void
+     */
+    public function setGiveDelete($_value)
+    {
+        $this->_give_delete = $_value;
+    }
+
+    /**
+     * 获取是否返回假删除的数据
+     * @return bool
+     */
+    public function getGiveDelete()
+    {
+        return $this->_give_delete;
     }
 
     /**

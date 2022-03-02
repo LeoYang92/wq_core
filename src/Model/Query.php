@@ -168,11 +168,15 @@ class Query
     {
         $_args = func_get_args();
         $Model = $_args[0];
+        $_where = $Model->getWhere();
+        if(!$Model->getGiveDelete()) {
+            $_where .= ' AND delete_time = 0';
+        }
         $_query = "
                         SELECT 
                                 " . $Model->getField() . " 
                         FROM " . tablename($Model->getTable()) . "
-                        " . $Model->getWhere() . "
+                        " . $_where . "
                         LIMIT 1
                        ";
         $Model->setQuery($_query);
@@ -527,6 +531,18 @@ class Query
     }
 
     /**
+     * 设置Model是否获取已经假删除的数据
+     * @return mixed
+     */
+    public function give_delete()
+    {
+        $_args = func_get_args();
+        $Model = $_args[0];
+        $Model->setGiveDelete(true);
+        return $Model;
+    }
+
+    /**
      * 设置不经过getAttr二次处理的方法
      * @param boolean $_method
      * @return mixed
@@ -874,7 +890,7 @@ class Query
         if(count($_args) <= 0){
             // 不传参数
             $_result = $Model->update(
-                array($Model->_delete_field => $Model->_delete_status)
+                array($Model->_delete_field => TIMESTAMP)
             );
 
         } else if(is_bool($_args[0])){
@@ -884,7 +900,7 @@ class Query
                 $_result = self::trueDelete($Model);
             } else {
                 $_result = $Model->update(
-                    array($Model->_delete_field => $Model->_delete_status)
+                    array($Model->_delete_field => TIMESTAMP)
                 );
             }
 
@@ -900,7 +916,7 @@ class Query
                     $_result = self::trueDelete($Model);
                 } else {
                     $_result = $Model->update(
-                        array($Model->_delete_field => $Model->_delete_status)
+                        array($Model->_delete_field => TIMESTAMP)
                     );
                 }
 
@@ -913,7 +929,7 @@ class Query
                     $_result = self::trueDelete($Model);
                 } else {
                     foreach($_args[0] as $_v){
-                        $Model->where($Model->getKey(),$_v)->update(array($Model->_delete_field => $Model->_delete_status));
+                        $Model->where($Model->getKey(),$_v)->update(array($Model->_delete_field => TIMESTAMP));
                     }
                     $_result = true;
                 }
