@@ -23,7 +23,11 @@ class Query
         $_args = func_get_args();
         $Model = $_args[0];
         array_shift($_args);
-        $_where = self::parseWhere($Model,$_args[0], $_args[1], $_args[2]);
+        if(is_array($_args[0])) {
+            $_where = self::parseArrayWhere($Model,$_args[0],'AND');
+        } else {
+           $_where = self::parseWhere($Model,$_args[0], $_args[1], $_args[2]);
+        }
         $Model->setBind(array_merge($Model->getBind(), $_where["bind"]));
         if (!$_get_where = $Model->getWhere()) {
             $_get_where = " WHERE " . $_where["where"];
@@ -46,10 +50,17 @@ class Query
         $_args = func_get_args();
         $Model = $_args[0];
         array_shift($_args);
-        $_where = self::parseWhere($Model,$_args[0], $_args[1], $_args[2]);
+        if(is_array($_args[0])) {
+            $_where = self::parseArrayWhere($Model,$_args[0],'OR');
+        } else {
+            $_where = self::parseWhere($Model,$_args[0], $_args[1], $_args[2]);
+        }
         $Model->setBind(array_merge($Model->getBind(), $_where["bind"]));
-        $_get_where = $Model->getWhere();
-        $_get_where .= " OR ".$_where["where"];
+        if (!$_get_where = $Model->getWhere()) {
+            $_get_where = " WHERE " . $_where["where"];
+        } else {
+            $_get_where .= " OR " . $_where["where"];
+        }
         $Model->setWhere($_get_where);
         return $Model;
     }
@@ -106,6 +117,32 @@ class Query
                 $_bind = array($_bind_param => $_condition);
             }
         }
+        return array("where" => $_where, "bind" => $_bind);
+    }
+
+    /**
+     * 解析where and 语句
+     * @param $Model
+     * @param $_field
+     * @param string $_type
+     * @return array
+     */
+    private function parseArrayWhere($Model,$_field,$_type = 'AND')
+    {
+        $_where = "";
+        $_bind = array();
+        foreach($_field as $_k=>$_v) {
+            $_keys = explode(' ',$_k);
+            $_bind_param = $_keys[0].$Model->getBindSuffix();
+            if(count($_keys) > 1) {
+                $_where .= $_keys[0] ." ".$_keys[1]." :".$_bind_param." ".$_type." ";
+                $_bind[$_bind_param] = $_v;
+            } else {
+                $_where .= $_k ." = :".$_bind_param." ".$_type." ";
+                $_bind[$_bind_param] = $_v;
+            }
+        }
+        $_where = substr($_where,0,-(strlen($_type) + 2));
         return array("where" => $_where, "bind" => $_bind);
     }
 
