@@ -168,15 +168,11 @@ class Query
     {
         $_args = func_get_args();
         $Model = $_args[0];
-        $_where = $Model->getWhere();
-        if(!$Model->getGiveDelete()) {
-            $_where .= ' AND delete_time = 0';
-        }
         $_query = "
                         SELECT 
                                 " . $Model->getField() . " 
                         FROM " . tablename($Model->getTable()) . "
-                        " . $_where . "
+                        " . $Model->getWhere(true) . " 
                         LIMIT 1
                        ";
         $Model->setQuery($_query);
@@ -194,6 +190,7 @@ class Query
             $_result = self::getAttr($Model,$_result);
         }
         // E执行属性二次处理
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -209,7 +206,7 @@ class Query
                         SELECT 
                                 " . $Model->getField() . " 
                         FROM " . tablename($Model->getTable()) . "
-                        " . $Model->getWhere() . "
+                        " . $Model->getWhere(true) . "
                         LIMIT 1
                        ";
         $Model->setQuery($_query);
@@ -221,7 +218,7 @@ class Query
             $_result = pdo_fetch($Model->getQuery(), $Model->getBind());
         }
         // E获取设置缓存
-
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -421,7 +418,7 @@ class Query
                         SELECT 
                                 " . $Model->getField() . " 
                         FROM " . tablename($Model->getTable()) . "
-                        " . $Model->getWhere() . "
+                        " . $Model->getWhere(true) . "
                         ".$Model->getGroup()."
                         ".$Model->getOrder()."
                         ".$Model->getLimit()."
@@ -440,6 +437,7 @@ class Query
                 $_result[$_k] = self::getAttr($Model,$_v);
             }
         }
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -458,6 +456,7 @@ class Query
         if($_key_id){
             $Model = $Model->where($Model->getKey(),$_args[0]);
         }
+        $Model->clearAllParams();
         return $Model->find();
     }
 
@@ -483,6 +482,7 @@ class Query
                 array_push($_data,(array) $Model->get($_v));
             }
         }
+        $Model->clearAllParams();
         return $_data;
     }
 
@@ -496,12 +496,11 @@ class Query
         $_args = func_get_args();
         $Model = $_args[0];
         array_shift($_args);
-
         $_sql = "SELECT 
 						`$_args[0]`
 					FROM
 						".tablename($Model->getTable())."
-					    ".$Model->getWhere()."
+					    ".$Model->getWhere(true)." 
 					 LIMIT 1
 				";
         $Model->setQuery($_sql);
@@ -512,6 +511,7 @@ class Query
         } else {
             $_result = pdo_fetchcolumn($Model->getQuery(), $Model->getBind());
         }
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -582,7 +582,7 @@ class Query
 						COUNT(`".$Model->getKey()."`)
 					FROM
 						".tablename($Model->getTable())."
-					    ".$Model->getWhere()."
+					    ".$Model->getWhere(true)." 
 					    ".$Model->getLimit()."
 				";
         $Model->setQuery($_sql);
@@ -594,6 +594,7 @@ class Query
             $_result = pdo_fetchcolumn($Model->getQuery(), $Model->getBind());
         }
         // E获取设置缓存
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -612,7 +613,7 @@ class Query
 						SUM(`".$_args[0]."`)
 					FROM
 						".tablename($Model->getTable())."
-					    ".$Model->getWhere()."
+					    ".$Model->getWhere(true)."
 				";
         $Model->setQuery($_sql);
         list($_cache,$_label) = $Model->getCache();
@@ -623,6 +624,7 @@ class Query
             $_result = pdo_fetchcolumn($Model->getQuery(), $Model->getBind());
         }
         // E获取设置缓存
+        $Model->clearAllParams();
         return $_result ? $_result : 0;
     }
 
@@ -713,6 +715,7 @@ class Query
         $_insert_data = self::setAttr($Model,$_args[0]);
         $_insert_data = self::filtrationField($Model,$_insert_data);
         $_result = pdo_insert($Model->getTable(),$_insert_data);
+        $Model->clearAllParams();
         if($_result){
             $Model::clearCache();
             $Model->id = pdo_insertid();
@@ -735,6 +738,7 @@ class Query
         $_insert_data = self::setAttr($Model,$_args[0]);
         $_insert_data = self::filtrationField($Model,$_insert_data);
         $_result = pdo_insert($Model->getTable(),$_insert_data);
+        $Model->clearAllParams();
         if($_result){
             $Model->id = pdo_insertid();
             $Model::clearCache();
@@ -764,6 +768,7 @@ class Query
             }
         }
         unset($_insert_data);
+        $Model->clearAllParams();
         if(count($_insert_ids) > 0){
             $Model::clearCache();
             $Model->id = $_insert_ids;
@@ -793,6 +798,7 @@ class Query
                 ";
         $Model->setQuery($_sql);
         $Model::clearCache();
+        $Model->clearAllParams();
         return pdo_query($_sql,$Model->getBind());
     }
 
@@ -833,10 +839,11 @@ class Query
             UPDATE
                     ".tablename($Model->getTable())."
                     ".self::parseAddMinData($_args[0],$_args[1],"+")."
-                    ".$Model->getWhere()."
+                    ".$Model->getWhere()." 
         ";
         $Model->setQuery($_sql);
         $Model::clearCache();
+        $Model->clearAllParams();
         return pdo_query($_sql,$Model->getBind());
     }
 
@@ -860,6 +867,7 @@ class Query
         ";
         $Model->setQuery($_sql);
         $Model::clearCache();
+        $Model->clearAllParams();
         return pdo_query($_sql,$Model->getBind());
     }
 
@@ -937,6 +945,7 @@ class Query
             }
         }
         if($_result) $Model::clearCache();
+        $Model->clearAllParams();
         return $_result;
     }
 
@@ -967,6 +976,7 @@ class Query
         $Model = $_args[0];
         array_shift($_args);
         $Model->setQuery($_args[0]);
+        $Model->clearAllParams();
         return $Model;
     }
 

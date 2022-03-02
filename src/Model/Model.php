@@ -284,9 +284,19 @@ abstract class Model
     /**
      * 获取where语句
      */
-    public function getWhere()
+    public function getWhere($_last_where = false)
     {
-        return $this->_where;
+        $_where = $this->_where;
+        if($_last_where && !$this->_give_delete && in_array($this->_delete_field,$this->_fields))
+        {
+            if($_where) {
+                $_where .= " AND ".$this->_delete_field." = :".$this->_delete_field;
+            } else {
+                $_where = " WHERE ".$this->_delete_field." = :".$this->_delete_field;
+            }
+            $this->setBind(array_merge($this->getBind(), array($this->_delete_field=>0)));
+        }
+        return $_where;
     }
 
     /**
@@ -456,5 +466,29 @@ abstract class Model
     private function createQuery()
     {
         return new Query();
+    }
+
+    /**
+     * 请求完成后清空所有参数，防止new实力化model类时各种参数混淆
+     * @return void
+     */
+    public function clearAllParams()
+    {
+        $this->_cache_label = "";
+        $this->_where = "";
+        $this->_cache = array(false,"");
+        $this->_query = null;
+        $this->_order = null;
+        $this->_group = null;
+        $this->_limit = null;
+        $this->_field = null;
+        $this->_delete_field = "delete_time";
+        $this->_bind = array();
+        $this->_source = array();
+        $this->data = null;
+        $this->_not_get_attr = array();
+        $this->_get_attribute = array();
+        $this->_bind_suffix = 0;
+        $this->_give_delete = false;
     }
 }
