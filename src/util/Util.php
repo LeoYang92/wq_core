@@ -30,12 +30,12 @@ class Util
      */
     public static function returns($_data,$_code = 200)
     {
-        if($_code != 200) http_response_code($_code);
         $_data = array(
             'code' => $_code,
             'data' => $_data
         );
         echo json_encode($_data);
+        if($_code != 200) http_response_code($_code);
         exit;
     }
 

@@ -5,7 +5,8 @@
     "autoload-dev": {
         "psr-4": {
             "Model\\": "model/",
-            "Controller\\": "controller"
+            "Controller\\": "controller/",
+            "Api\\": "api/"
         }
     },
     "autoload": {
@@ -23,6 +24,7 @@
         }
     ],
     "require": {
-        "endroid/qr-code": "2.5.1"
+        "endroid/qr-code": "2.5.1",
+        "firebase/php-jwt": "^6.0"
     }
 }

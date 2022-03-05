@@ -1,5 +1,6 @@
 <?php
 namespace Kuyuan\WqCore\api;
+use Kuyuan\WqCore\util\Auth;
 use Kuyuan\WqCore\util\Util;
 
 abstract class Api
@@ -7,11 +8,30 @@ abstract class Api
     protected $_gpc = array();
     // 执行api调用的类集合，防止重复实例化controller中的类
     protected $_class = array();
+    // 需要验证的登录token方法名,在子类初始化
+    // protected $_check_auth = array();
 
     protected function __construct()
     {
         global $_GPC;
         $this->_gpc = $_GPC;
+        // 是否执行验证Auth
+        if(in_array($this->_gpc['doing'],$this->_check_auth)) {
+            $this->checkAuth();
+        }
+    }
+
+    /**
+     * 验证登录auth
+     * @return void
+     */
+    private function checkAuth()
+    {
+        $_auth_token = Auth::getHeader('Authorization');
+        if(!$_auth_token) {
+            Util::returns(array('message'=>'UnAuthorization'),402);
+        }
+        exit;
     }
 
     /**
