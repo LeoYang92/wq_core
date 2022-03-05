@@ -26,15 +26,16 @@ class Util
 
     /**
      * 返回json数据
-     * @param array $_data 数据
+     * @param array|string $_data 数据
      */
-    public static function returns($_data)
+    public static function returns($_data,$_code = 200)
     {
-        if (is_array($_data)) {
-            echo json_encode($_data);
-        } else {
-            echo $_data;
-        }
+        if($_code != 200) http_response_code($_code);
+        $_data = array(
+            'code' => $_code,
+            'data' => $_data
+        );
+        echo json_encode($_data);
         exit;
     }
 
