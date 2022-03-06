@@ -117,7 +117,8 @@ abstract class Model
 
         $_w7 = false; // 是否为微擎官方表
 
-        $_filename = end(explode('\\', get_class($this)));
+        $_class_names = explode('\\', get_class($this));
+        $_filename = end($_class_names);
         $_filename = substr($_filename, 0, -5);
 
         // S如果是微擎官方表
