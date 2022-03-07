@@ -26,16 +26,25 @@ class Util
 
     /**
      * 返回json数据
-     * @param array|string $_data 数据
+     * @param array|string|int $_data 数据
+     * @param array|string $_code 返回code
+     * @param array|string $_message 返回信息
      */
-    public static function returns($_data,$_code = 200)
+    public static function returns($_data,$_code = 200,$_message = '')
     {
-        $_data = array(
-            'code' => $_code,
-            'data' => $_data
-        );
+        $_data = array();
+        $_args = func_get_args();
+        foreach($_args as $_value) {
+            if(is_int($_value)) {
+                $_data['code'] = $_value;
+            } else if(is_string($_value)) {
+                $_data['message'] = $_value;
+            } else if(is_array($_value)) {
+                $_data['data'] = $_value;
+            }
+        }
+        if($_data['code'] != 200) http_response_code($_data['code']);
         echo json_encode($_data);
-        if($_code != 200) http_response_code($_code);
         exit;
     }
 
@@ -45,7 +54,7 @@ class Util
     public static function appointPost()
     {
         global $_W;
-        if(!$_W['ispost']) self::returns(array("code"=>302,"msg"=>"路由错误"));
+        if(!$_W['ispost']) self::returns(302,'路由错误');
     }
 
     /**
@@ -54,7 +63,7 @@ class Util
     public static function appointGet()
     {
         global $_W;
-        if($_W['ispost']) self::returns(array("code"=>302,"msg"=>"路由错误"));
+        if($_W['ispost']) self::returns(302,'路由错误');
     }
 
     /**
@@ -91,5 +100,17 @@ class Util
                 ->where("uid",$_W["member"]["uid"])
                 ->update(array("nickname"=>$_wx_member['nickname'],"avatar"=>$_wx_member['headimgurl']));
         }
+    }
+
+
+    /**
+     * 获取自定义请求头
+     * @param $_attribute
+     * @return mixed
+     */
+    public static function getHeader($_attribute)
+    {
+        $_attribute = strtoupper('http_'.$_attribute);
+        return $_SERVER[$_attribute];
     }
 }

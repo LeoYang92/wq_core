@@ -9,7 +9,7 @@ abstract class Api
     // 执行api调用的类集合，防止重复实例化controller中的类
     protected $_class = array();
     // 需要验证的登录token方法名,在子类初始化
-    // protected $_check_auth = array();
+    protected $_check_auth = array();
 
     protected function __construct()
     {
@@ -27,11 +27,18 @@ abstract class Api
      */
     private function checkAuth()
     {
-        $_auth_token = Auth::getHeader('Authorization');
-        if(!$_auth_token) {
-            Util::returns(array('message'=>'UnAuthorization'),402);
+        try {
+            $_auth_token = Util::getHeader('Authorization');
+            if(!$_auth_token) {
+                throw new \Exception('UnAuthorization',401);
+            }
+            $_tokens = Auth::decodeToken($_auth_token);
+            if(!$_tokens) {
+                throw new \Exception('UnAuthorization',401);
+            }
+        } catch (\Exception $e) {
+            Util::returns($e->getCode(),$e->getMessage());
         }
-        exit;
     }
 
     /**
