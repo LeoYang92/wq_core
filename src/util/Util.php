@@ -32,7 +32,7 @@ class Util
      */
     public static function returns($_data,$_code = 200,$_message = '')
     {
-        $_data = array();
+        $_data = array('code'=>200);
         $_args = func_get_args();
         foreach($_args as $_value) {
             if(is_int($_value)) {
