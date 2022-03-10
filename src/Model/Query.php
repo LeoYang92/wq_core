@@ -976,7 +976,6 @@ class Query
         $Model = $_args[0];
         array_shift($_args);
         $Model->setQuery($_args[0]);
-        $Model->clearAllParams();
         return $Model;
     }
 
@@ -1014,6 +1013,29 @@ class Query
                 $_result[$_k] = self::getAttr($Model,$_v);
             }
         }
+        $Model->clearAllParams();
+        return $_result;
+    }
+
+    /**
+     * 执行查找自定义sql语句，查找一个数据
+     */
+    public function fetch()
+    {
+        $_args = func_get_args();
+        $Model = $_args[0];
+        array_shift($_args);
+        list($_cache,$_label) = $Model->getCache();
+        // S获取设置缓存
+        if($_cache){
+            $_result = self::setCache("select",$Model,$_cache === true ? 0 : $_cache,$_label);
+        } else {
+            $_result = pdo_fetch($Model->getQuery(),$Model->getBind());
+        }
+        if($_result){
+            $_result = self::getAttr($Model,$_result);
+        }
+        $Model->clearAllParams();
         return $_result;
     }
 

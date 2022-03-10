@@ -32,7 +32,8 @@ use Kuyuan\WqCore\cache\Cache;
  * @method mixed delete($_data = "", $_true_delete = false) static 删除数据 $_data 删除的数据id
  * @method mixed sql($_sql) static 自定义sql语句
  * @method mixed bind() static 自定义sql语句绑定的参数
- * @method mixed fetchAll() static 执行自定义sql语句的查找
+ * @method mixed fetchAll() static 执行自定义sql语句的查找所有数据
+ * @method mixed fetch() static 执行自定义sql语句的查找一个数据
  * @method mixed column() static 执行自定义sql语句返回指定字段列
  * @method mixed give_delete() static 获取假删除的数据
  */
