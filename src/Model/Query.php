@@ -1028,7 +1028,7 @@ class Query
         list($_cache,$_label) = $Model->getCache();
         // S获取设置缓存
         if($_cache){
-            $_result = self::setCache("select",$Model,$_cache === true ? 0 : $_cache,$_label);
+            $_result = self::setCache("find",$Model,$_cache === true ? 0 : $_cache,$_label);
         } else {
             $_result = pdo_fetch($Model->getQuery(),$Model->getBind());
         }
