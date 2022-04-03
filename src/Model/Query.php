@@ -39,6 +39,29 @@ class Query
     }
 
     /**
+     * 自定义where语句
+     * @param string $_query
+     * @param array $_bind
+     * @return mixed
+     */
+    public function whereRaw($_query,$_bind = array())
+    {
+        $_args = func_get_args();
+        $Model = $_args[0];
+        array_shift($_args);
+        if(is_array($_args[1])) {
+            $Model->setBind(array_merge($Model->getBind(), $_args[1]));
+        }
+        if (!$_get_where = $Model->getWhere()) {
+            $_get_where = " WHERE " . $_args[0];
+        } else {
+            $_get_where .= " AND " . $_args[0];
+        }
+        $Model->setWhere($_get_where);
+        return $Model;
+    }
+
+    /**
      * 数据库OR拼接
      * @param $_field
      * @param null $_op

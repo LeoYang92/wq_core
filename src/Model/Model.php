@@ -7,6 +7,7 @@ use Kuyuan\WqCore\cache\Cache;
  * @mixin Query
  * @method $this where(mixed $_field, string $op = null, mixed $condition = null) static where语句
  * @method $this whereOr(mixed $_field, string $op = null, mixed $condition = null) static where OR 语句
+ * @method $this whereRaw(string $_query, array $_bind = array()) static where 自定义语句
  * @method $this field(Array $_field = array()) static 请求字段
  * @method $this find() static 请求一条数据
  * @method $this take() static 请求一条数据 不进行getAttr的二次处理
