@@ -32,19 +32,19 @@ class Util
      */
     public static function returns($_data,$_code = 200,$_message = '')
     {
-        $_data = array('code'=>200);
+        $_return_data = array('code'=>200);
         $_args = func_get_args();
         foreach($_args as $_value) {
             if(is_int($_value)) {
-                $_data['code'] = $_value;
+                $_return_data['code'] = $_value;
             } else if(is_string($_value)) {
-                $_data['message'] = $_value;
+                $_return_data['message'] = $_value;
             } else if(is_array($_value)) {
-                $_data['data'] = $_value;
+                $_return_data['data'] = $_value;
             }
         }
-        if($_data['code'] != 200) http_response_code($_data['code']);
-        echo json_encode($_data);
+        if($_return_data['code'] != 200) http_response_code($_return_data['code']);
+        echo json_encode($_return_data);
         exit;
     }
 
