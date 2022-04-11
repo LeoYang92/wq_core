@@ -343,9 +343,10 @@ class Query
      *  新增修改数据时过滤无用字段
      * @param $Model
      * @param $_data
+     * @param bool $_is_create 是否创建
      * @return mixed
      */
-    private function filtrationField($Model,$_data)
+    private function filtrationField($Model,$_data,$_is_create = true)
     {
         $_temp_fields = array_flip($Model->_fields);
         $_diff = array_diff_key($_data,$_temp_fields);
@@ -353,6 +354,14 @@ class Query
             unset($_data[$_k]);
         }
         unset($_temp_fields,$_diff);
+        // 自动填充创建时间
+        if($_is_create && !isset($_data['create_time']) && in_array('create_time',$Model->_fields)) {
+            $_data['create_time'] = time();
+        }
+        // 自动创建修改时间
+        if(!isset($_data['update_time']) && in_array('update_time',$Model->_fields)) {
+            $_data['update_time'] = time();
+        }
         return $_data;
     }
 
@@ -812,7 +821,7 @@ class Query
         $Model = $_args[0];
         array_shift($_args);
         $_update_data = self::updateSetAttr($Model,$_args[0]);
-        $_update_data = self::filtrationField($Model,$_update_data);
+        $_update_data = self::filtrationField($Model,$_update_data,false);
         $_sql = "
                 UPDATE 
                     ".tablename($Model->getTable())."
