@@ -59,13 +59,14 @@ class Controller
      * 通用简单的查询单条数据
      * @param array $_where
      * @param array $_fields
+     * @param string $_attribute
      * @return mixed
      */
-    public function easy_find(Array $_where,Array $_fields = array())
+    public function easy_find(Array $_where,Array $_fields = array(),$_attribute = '')
     {
         $Result =  $this->Model
                 ->where($_where)
-                ->getAttribute()
+                ->getAttribute($_attribute)
                 ->cache(!KUYUAN_DEBUG);
         if(count($_fields) > 0) {
             $Result = $Result->field($_fields);
@@ -117,13 +118,16 @@ class Controller
      * 通用简单的查询多条语句
      * @param array $_where
      * @param array $_fields
+     * @param array $_limit
+     * @param array $_order
+     * @param string $_attribute
      * @return array
      */
-    public function easy_select(Array $_where,Array $_fields = array(),Array $_limit = array(),Array $_order = array())
+    public function easy_select(Array $_where,Array $_fields = array(),Array $_limit = array(),Array $_order = array(),$_attribute = '')
     {
         $Result = $this->Model
                 ->where($_where)
-                ->getAttribute()
+                ->getAttribute($_attribute)
                 ->cache(!KUYUAN_DEBUG);
         if(count($_fields) > 0) {
             $Result = $Result->field($_fields);
