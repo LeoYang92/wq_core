@@ -65,6 +65,7 @@ class Controller
     {
         $Result =  $this->Model
                 ->where($_where)
+                ->getAttribute()
                 ->cache(!KUYUAN_DEBUG);
         if(count($_fields) > 0) {
             $Result = $Result->field($_fields);
@@ -80,7 +81,7 @@ class Controller
      */
     public function easy_value(Array $_where,$_field)
     {
-        return $this->Model->where($_where)->cache(!KUYUAN_DEBUG)->value($_field);
+        return $this->Model->where($_where)->cache(!KUYUAN_DEBUG)->getAttribute()->value($_field);
     }
 
     /**
@@ -122,6 +123,7 @@ class Controller
     {
         $Result = $this->Model
                 ->where($_where)
+                ->getAttribute()
                 ->cache(!KUYUAN_DEBUG);
         if(count($_fields) > 0) {
             $Result = $Result->field($_fields);
