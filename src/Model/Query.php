@@ -1008,7 +1008,17 @@ class Query
         $_args = func_get_args();
         $Model = $_args[0];
         array_shift($_args);
-        $Model->setQuery($_args[0]);
+        // 是否包含delete_time字段，假删除字段，如果包含则自动添加 AND delete_time != 0
+        $_sql = $_args[0];
+        if(in_array('delete_time',$Model->_fields)) {
+            $_where_option = strpos(strtoupper($_sql),'WHERE');
+            $_where_option = $_where_option === false ? strpos(strtoupper($_sql),'where') : $_where_option;
+            if($_where_option !== false) {
+                $_where_option += 5;
+                $_sql = substr_replace($_sql," `delete_time` = 0 AND ",$_where_option,0);
+            }
+        }
+        $Model->setQuery($_sql);
         return $Model;
     }
 
