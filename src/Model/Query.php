@@ -876,8 +876,9 @@ class Query
         ";
         $Model->setQuery($_sql);
         $Model::clearCache();
+        $_binds = $Model->getBind();
         $Model->clearAllParams();
-        return pdo_query($_sql,$Model->getBind());
+        return pdo_query($_sql,$_binds);
     }
 
     /**
@@ -900,8 +901,9 @@ class Query
         ";
         $Model->setQuery($_sql);
         $Model::clearCache();
+        $_binds = $Model->getBind();
         $Model->clearAllParams();
-        return pdo_query($_sql,$Model->getBind());
+        return pdo_query($_sql,$_binds);
     }
 
     /**
