@@ -46,12 +46,12 @@ abstract class Api
      * @param $_class_name
      * @return object
      */
-    protected function newController($_class_name)
+    protected function newController($_class_name,$_namespace = "Controller\\")
     {
         if(isset($this->_class[$_class_name])) {
             $Class = $this->_class[$_class_name];
         } else {
-            $Class = $this->_class[$_class_name] = Util::execClass("Controller\\".$_class_name);
+            $Class = $this->_class[$_class_name] = Util::execClass($_namespace.$_class_name);
         }
         return $Class;
     }
