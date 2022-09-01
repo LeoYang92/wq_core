@@ -8,9 +8,10 @@ if (!function_exists('cool_env')) {
     {
         $value = $_ENV[$key];
 
-        if ($value === false) {
+        if ($value === false || $value === NULL) {
             return $default;
         }
+
 
         switch (strtolower($value)) {
             case 'true':
