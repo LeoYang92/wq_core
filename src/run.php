@@ -14,7 +14,7 @@ if(is_file($_config_filename)){
 error_reporting(E_ALL & ~E_NOTICE);
 
 // 运行错误日志
-if (!KUYUAN_DEBUG) {
+if (!KUYUAN_DEBUG && !KUYUAN_ERROR) {
     ini_set("log_errors", 1);
     ini_set("display_errors", 0);
     ini_set("error_log", \Kuyuan\WqCore\util\File::dir("error_log", true) . "/error.log");
