@@ -25,6 +25,7 @@
     ],
     "require": {
         "endroid/qr-code": "2.5.1",
-        "firebase/php-jwt": "^6.0"
+        "firebase/php-jwt": "^6.0",
+        "vlucas/phpdotenv": "^v4.2.2"
     }
 }
