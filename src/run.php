@@ -6,6 +6,10 @@ defined('IN_IA') or exit('Access Denied');
 
 $_root = substr(__FILE__,0,strpos(__FILE__,"vendor"));
 
+// env环境变量
+$Dotenv = \Dotenv\Dotenv::createImmutable($_root);
+$Dotenv->safeLoad();
+
 $_config_filename = $_root."config.php";
 if(is_file($_config_filename)){
     include $_config_filename;
@@ -25,7 +29,3 @@ if (!KUYUAN_DEBUG && !KUYUAN_ERROR) {
 // PDO设置报错类型
 $PDO = pdo()->getPDO();
 $PDO->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-// env环境变量
-$Dotenv = \Dotenv\Dotenv::createImmutable($_root);
-$Dotenv->safeLoad();
